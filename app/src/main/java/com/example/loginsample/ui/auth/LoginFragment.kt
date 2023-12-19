@@ -38,13 +38,17 @@ class LoginFragment : BaseFragment<AuthViewModel, FragmentLoginBinding, AuthRepo
                         // Save the access token to the store
                         viewModel.saveAuthToken(it.value.access)
 
+
                         // Go to home activity
                         requireActivity().startNewActivity(HomeActivity::class.java)
                 }
                 is Resource.Failure -> {
                     Toast.makeText(requireContext(), "Login Failure", Toast.LENGTH_LONG).show()
                 }
+
+                else -> {}
             }
+
         })
 
 
