@@ -16,6 +16,7 @@ import com.example.loginsample.data.network.Resource
 import com.example.loginsample.data.repository.AuthRepository
 import com.example.loginsample.ui.base.BaseFragment
 import com.example.loginsample.ui.enable
+import com.example.loginsample.ui.handleApiError
 import com.example.loginsample.ui.home.HomeActivity
 import com.example.loginsample.ui.startNewActivity
 import com.example.loginsample.ui.visible
@@ -32,19 +33,18 @@ class LoginFragment : BaseFragment<AuthViewModel, FragmentLoginBinding, AuthRepo
 
         viewModel.loginResponse.observe(viewLifecycleOwner, Observer {
             // Make progress bar not visible
-            binding.progressbar.visible(false)
+            binding.progressbar.visible(it is Resource.Loading)
             when(it){
                 is Resource.Success -> {
-                        // Save the access token to the store
-                        viewModel.saveAuthToken(it.value.access)
+                        lifecycleScope.launch {
+                            // Save the access token to the store
+                            viewModel.saveAuthToken(it.value.access)
 
-
-                        // Go to home activity
-                        requireActivity().startNewActivity(HomeActivity::class.java)
+                            // Go to home activity
+                            requireActivity().startNewActivity(HomeActivity::class.java)
+                        }
                 }
-                is Resource.Failure -> {
-                    Toast.makeText(requireContext(), "Login Failure", Toast.LENGTH_LONG).show()
-                }
+                is Resource.Failure -> handleApiError(it)
 
                 else -> {}
             }
@@ -61,8 +61,6 @@ class LoginFragment : BaseFragment<AuthViewModel, FragmentLoginBinding, AuthRepo
             val email = binding.editTextEmail.text.toString().trim()
             val password = binding.editTextPassword.text.toString().trim()
 
-            // Make progress bar visible
-            binding.progressbar.visible(true)
 
             //@todo add validations
             viewModel.login(email, password)

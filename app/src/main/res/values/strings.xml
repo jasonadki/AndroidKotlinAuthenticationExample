@@ -1,6 +1,6 @@
 <resources>
     <!-- Common strings -->
-    <string name="app_name">YourAppName</string>
+    <string name="app_name">SampleAuthenticationApp</string>
 
     <!-- Strings for Login Fragment -->
     <string name="email_hint">Email</string>

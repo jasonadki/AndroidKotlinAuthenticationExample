@@ -8,6 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class RemoteDataSource{
     companion object{
+        // @TODO Replace me with a legitimate address
         private const val BASE_URL = "http://192.168.1.65:8000/"
     }
 
@@ -22,6 +23,7 @@ class RemoteDataSource{
                 OkHttpClient.Builder()
                     .addInterceptor{chain ->
                         chain.proceed(chain.request().newBuilder().also {
+                            // Using backend JWT for authentication, depending on application this might need to be "Bearer "
                             it.addHeader("Authorization", "JWT $authToken")
                         }.build())
                     }
