@@ -7,11 +7,12 @@ import androidx.lifecycle.viewModelScope
 import com.example.loginsample.data.network.Resource
 import com.example.loginsample.data.repository.UserRepository
 import com.example.loginsample.data.responses.UserResponse
+import com.example.loginsample.ui.base.BaseViewModel
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
     private val repository: UserRepository
-): ViewModel() {
+): BaseViewModel(repository) {
 
     private val _userResponse: MutableLiveData<Resource<UserResponse>> = MutableLiveData()
     val userResponse: LiveData<Resource<UserResponse>>

@@ -7,11 +7,12 @@ import androidx.lifecycle.viewModelScope
 import com.example.loginsample.data.network.Resource
 import com.example.loginsample.data.repository.AuthRepository
 import com.example.loginsample.data.responses.LoginResponse
+import com.example.loginsample.ui.base.BaseViewModel
 import kotlinx.coroutines.launch
 
 class AuthViewModel(
     private val repository: AuthRepository
-) : ViewModel() {
+) : BaseViewModel(repository) {
 
     private val _loginResponse : MutableLiveData<Resource<LoginResponse>> = MutableLiveData()
     val loginResponse: LiveData<Resource<LoginResponse>>
@@ -27,8 +28,8 @@ class AuthViewModel(
         _loginResponse.value = repository.login(email, password)
     }
 
-    suspend fun saveAuthToken(token: String) {
-        repository.saveAuthToken(token)
+    suspend fun saveAuthToken(token: String, refToken: String) {
+        repository.saveAuthToken(token, refToken)
     }
 
 }

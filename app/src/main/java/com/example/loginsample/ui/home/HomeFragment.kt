@@ -41,6 +41,10 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding, UserReposi
                 else -> {}
             }
         })
+
+        binding.buttonLogout.setOnClickListener {
+            logout()
+        }
     }
 
     private fun updateUI(userResponse: UserResponse) {

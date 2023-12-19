@@ -38,13 +38,13 @@ class LoginFragment : BaseFragment<AuthViewModel, FragmentLoginBinding, AuthRepo
                 is Resource.Success -> {
                         lifecycleScope.launch {
                             // Save the access token to the store
-                            viewModel.saveAuthToken(it.value.access)
+                            viewModel.saveAuthToken(it.value.access, it.value.refresh)
 
                             // Go to home activity
                             requireActivity().startNewActivity(HomeActivity::class.java)
                         }
                 }
-                is Resource.Failure -> handleApiError(it)
+                is Resource.Failure -> handleApiError(it) { login() }
 
                 else -> {}
             }
@@ -58,14 +58,16 @@ class LoginFragment : BaseFragment<AuthViewModel, FragmentLoginBinding, AuthRepo
         }
 
         binding.buttonSubmit.setOnClickListener{
-            val email = binding.editTextEmail.text.toString().trim()
-            val password = binding.editTextPassword.text.toString().trim()
-
-
-            //@todo add validations
-            viewModel.login(email, password)
-
+            login()
         }
+    }
+
+    private fun login(){
+        val email = binding.editTextEmail.text.toString().trim()
+        val password = binding.editTextPassword.text.toString().trim()
+
+        //@todo add validations
+        viewModel.login(email, password)
     }
 
     override fun getViewModel() = AuthViewModel::class.java

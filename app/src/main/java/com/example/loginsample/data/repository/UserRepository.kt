@@ -12,4 +12,6 @@ class UserRepository(
     suspend fun getUser() = safeApiCall {
         api.getUser()
     }
+
+
 }

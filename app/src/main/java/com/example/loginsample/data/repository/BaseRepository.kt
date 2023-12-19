@@ -2,6 +2,7 @@ package com.example.loginsample.data.repository
 
 import retrofit2.HttpException
 import com.example.loginsample.data.network.Resource
+import com.example.loginsample.data.network.UserApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -24,5 +25,9 @@ abstract class BaseRepository {
                 }
             }
         }
+    }
+
+    suspend fun logout(api: UserApi, refreshToken: String) = safeApiCall {
+        api.logout(refreshToken)
     }
 }

@@ -21,6 +21,11 @@ class UserPreferences(context: Context) {
             preferences[KEY_AUTH]
         }
 
+    val refreshToken: Flow<String?>
+        get() = dataStore.data.map { preferences ->
+            preferences[KEY_REFRESH]
+        }
+
 
     suspend fun saveAuthToken(authToken: String){
         dataStore.edit { preferences ->
@@ -28,8 +33,23 @@ class UserPreferences(context: Context) {
         }
     }
 
+
+    suspend fun clear(){
+        dataStore.edit {
+            preferences -> preferences.clear()
+        }
+    }
+
+    suspend fun saveRefreshToken(refToken: String) {
+        dataStore.edit { preferences ->
+            preferences[KEY_REFRESH] = refToken
+        }
+
+    }
+
     companion object{
         private val KEY_AUTH = stringPreferencesKey("key_auth")
+        private val KEY_REFRESH = stringPreferencesKey("key_refresh")
     }
 
 }

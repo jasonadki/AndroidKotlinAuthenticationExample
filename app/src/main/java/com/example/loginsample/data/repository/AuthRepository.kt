@@ -16,7 +16,8 @@ class AuthRepository(
         api.login(email, password)
     }
 
-    suspend fun saveAuthToken(token: String){
+    suspend fun saveAuthToken(token: String, refToken: String){
         preferences.saveAuthToken(token)
+        preferences.saveRefreshToken(refToken)
     }
 }
